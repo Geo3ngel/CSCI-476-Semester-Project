@@ -2,6 +2,7 @@ import netifaces
 import os
 import time
 import sys
+import subprocess
 
 # TODO: Make command versions for linux and macOS in addition to Windows
 
@@ -10,7 +11,7 @@ class utils:
     def __init__(self, *args, **kwargs):
         self.operating_system = self.get_platform()
         self.slowprint(self.operating_system + " operating system detected.")
-
+        
         # initalize empty dictionary
         self.mac_dict = {}
 
@@ -38,6 +39,14 @@ class utils:
 
     # Attempts to run any string as a command
     def run_command(self, command):
-        os.system(command)
+        
+        return subprocess.run([command], stdout=subprocess.PIPE, shell=True).stdout.decode('utf-8')
 
 util = utils()
+
+# Tests the run_command method to check that it can in fact run a command & return the result
+print(util.run_command('dir'))
+# TODO: npm install spoof and set up command line argument methods in here so it is effectivly put into python!
+
+#pip install SpoofMAC
+#spoof-mac.py list
